@@ -5,6 +5,22 @@
     <title>Sample SAML Spring Boot Application</title>
 </head>
 <body>
-<h1>Hi, Click <a th:href="@{/saml/login}">here</a> to start the Single Sign On process</h1>
+
+<style>
+    a:visited {
+        color: #0000EE;
+    }
+</style>
+
+<h1>Index</h1>
+
+<a th:href="@{/}">Root</a><br />
+<a th:href="@{/saml/login}"><b>Login</b></a><br />
+<a th:href="@{/saml/login?idp=http%3A%2F%2Fwww.okta.com%2Fexkfplpbpexh7VohS0h7}"><b>Okta Login</b></a><br />
+<a th:href="@{/saml/idpselection}">IDP Selection</a><br />
+<a th:href="@{/home}">Home</a><br />
+<a th:href="@{/unprotected}">Unprotected (public)</a><br />
+<a th:href="@{/protected}">Protected</a><br />
+
 </body>
 </html>

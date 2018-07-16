@@ -27,7 +27,7 @@ public class IdPSelectionController {
             ModelAndView idpSelection = new ModelAndView("idpselection");
             idpSelection.addObject(SAMLDiscovery.RETURN_URL, request.getAttribute(SAMLDiscovery.RETURN_URL));
             idpSelection.addObject(SAMLDiscovery.RETURN_PARAM, request.getAttribute(SAMLDiscovery.RETURN_PARAM));
-            idpSelection.addObject("idpNameAliasMap", Collections.singletonMap("http://www.okta.com/exk62w7tqv0xkRl9p0h7", "Okta"));
+            idpSelection.addObject("idpNameAliasMap", Collections.singletonMap("http://www.okta.com/exkfplpbpexh7VohS0h7", "Okta"));
             return idpSelection;
         }
         throw new AuthenticationServiceException("SP Discovery flow not detected");

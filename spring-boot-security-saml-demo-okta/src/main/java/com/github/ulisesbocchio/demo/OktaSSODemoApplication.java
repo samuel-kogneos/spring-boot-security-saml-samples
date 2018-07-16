@@ -26,7 +26,7 @@ public class OktaSSODemoApplication {
         public void addViewControllers(ViewControllerRegistry registry) {
             registry.addViewController("/").setViewName("index");
             registry.addViewController("/protected").setViewName("protected");
-            registry.addViewController("/unprotected/help").setViewName("help");
+            registry.addViewController("/unprotected").setViewName("help");
 
         }
     }
@@ -50,7 +50,7 @@ public class OktaSSODemoApplication {
             // @formatter:off
             serviceProvider
                 .metadataGenerator()
-                .entityId("localhost-demo")
+//                .entityId("http://www.okta.com/exkfplpbpexh7VohS0h7")
                 .bindingsSSO("artifact", "post", "paos")
             .and()
                 .ecpProfile()
