@@ -8,6 +8,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.saml.websso.WebSSOProfileConsumer;
+import org.springframework.security.saml.websso.WebSSOProfileConsumerImpl;
+import org.springframework.security.saml.websso.WebSSOProfileOptions;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -47,6 +50,9 @@ public class OktaSSODemoApplication {
 
         @Override
         public void configure(ServiceProviderBuilder serviceProvider) throws Exception {
+            WebSSOProfileConsumerImpl consumer = new WebSSOProfileConsumerImpl(); //TODO: maybe don't create new one but try to get a created one instead.
+            consumer.setMaxAuthenticationAge(2);
+
             // @formatter:off
             serviceProvider
                 .metadataGenerator()
@@ -69,7 +75,9 @@ public class OktaSSODemoApplication {
             .and()
                 .keyManager()
                 .privateKeyDERLocation("classpath:/localhost.key.der")
-                .publicKeyPEMLocation("classpath:/localhost.cert");
+                .publicKeyPEMLocation("classpath:/localhost.cert")
+            .and()
+                .ssoProfileConsumer(consumer);
             // @formatter:on
 
         }
