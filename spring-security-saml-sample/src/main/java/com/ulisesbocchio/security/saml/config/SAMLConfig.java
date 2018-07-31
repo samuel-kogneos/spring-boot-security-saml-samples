@@ -31,9 +31,6 @@ import org.springframework.security.saml.websso.ArtifactResolutionProfileImpl;
 import org.springframework.security.saml.websso.WebSSOProfileOptions;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
-import org.springframework.security.web.authentication.logout.LogoutHandler;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
-import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
 
 import java.security.KeyStore;
 import java.util.ArrayList;
@@ -89,35 +86,6 @@ public class SAMLConfig {
     }
 
     @Bean
-    public SimpleUrlLogoutSuccessHandler successLogoutHandler() {
-        SimpleUrlLogoutSuccessHandler handler = new SimpleUrlLogoutSuccessHandler();
-        handler.setDefaultTargetUrl("/");
-        return handler;
-    }
-
-    @Bean
-    public SecurityContextLogoutHandler logoutHandler() {
-        SecurityContextLogoutHandler handler = new SecurityContextLogoutHandler();
-        //handler.setInvalidateHttpSession(true);
-        handler.setClearAuthentication(true);
-        return handler;
-    }
-
-    @Bean
-    public SAMLLogoutFilter samlLogoutFilter() {
-        SAMLLogoutFilter filter = new SAMLLogoutFilter(successLogoutHandler(), new LogoutHandler[]{logoutHandler()}, new LogoutHandler[]{logoutHandler()});
-        filter.setFilterProcessesUrl("/saml/logout");
-        return filter;
-    }
-
-    @Bean
-    public SAMLLogoutProcessingFilter samlLogoutProcessingFilter() {
-        SAMLLogoutProcessingFilter filter = new SAMLLogoutProcessingFilter(successLogoutHandler(), logoutHandler());
-        filter.setFilterProcessesUrl("/saml/SingleLogout");
-        return filter;
-    }
-
-    @Bean
     public MetadataGeneratorFilter metadataGeneratorFilter(MetadataGenerator metadataGenerator) {
         return new MetadataGeneratorFilter(metadataGenerator);
     }
@@ -164,9 +132,7 @@ public class SAMLConfig {
     public ExtendedMetadata extendedMetadata() {
         ExtendedMetadata metadata = new ExtendedMetadata();
         //set flag to true to present user with IDP Selection screen
-        metadata.setIdpDiscoveryEnabled(true);
-        metadata.setRequireLogoutRequestSigned(true);
-        //metadata.setRequireLogoutResponseSigned(true);
+//        metadata.setIdpDiscoveryEnabled(true);
         metadata.setSignMetadata(false);
         return metadata;
     }
@@ -174,9 +140,9 @@ public class SAMLConfig {
     @Bean
     public MetadataGenerator metadataGenerator(KeyManager keyManager) {
         MetadataGenerator generator = new MetadataGenerator();
-        generator.setEntityId("localhost-demo");
+//        generator.setEntityId("localhost-demo");
         generator.setExtendedMetadata(extendedMetadata());
-        generator.setIncludeDiscoveryExtension(false);
+//        generator.setIncludeDiscoveryExtension(false);
         generator.setKeyManager(keyManager);
         return generator;
     }
@@ -188,15 +154,6 @@ public class SAMLConfig {
         filter.setAuthenticationSuccessHandler(successRedirectHandler());
         filter.setAuthenticationFailureHandler(authenticationFailureHandler());
         filter.setFilterProcessesUrl("/saml/SSO");
-        return filter;
-    }
-
-    @Bean
-    public SAMLWebSSOHoKProcessingFilter samlWebSSOHoKProcessingFilter() throws Exception {
-        SAMLWebSSOHoKProcessingFilter filter = new SAMLWebSSOHoKProcessingFilter();
-        filter.setAuthenticationSuccessHandler(successRedirectHandler());
-        filter.setAuthenticationManager(authenticationManager());
-        filter.setAuthenticationFailureHandler(authenticationFailureHandler());
         return filter;
     }
 
@@ -213,14 +170,6 @@ public class SAMLConfig {
         handler.setUseForward(false);
         //handler.setDefaultFailureUrl("/error");
         return handler;
-    }
-
-    @Bean
-    public SAMLDiscovery samlIDPDiscovery() {
-        SAMLDiscovery filter = new SAMLDiscovery();
-        filter.setFilterProcessesUrl("/saml/discovery");
-        filter.setIdpSelectionPath("/idpselection");
-        return filter;
     }
 
     @Bean

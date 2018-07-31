@@ -8,10 +8,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.saml.*;
+import org.springframework.security.saml.SAMLEntryPoint;
+import org.springframework.security.saml.SAMLProcessingFilter;
 import org.springframework.security.saml.metadata.MetadataDisplayFilter;
 import org.springframework.security.saml.metadata.MetadataGeneratorFilter;
-import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 
@@ -24,12 +24,6 @@ import org.springframework.security.web.context.HttpSessionSecurityContextReposi
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private SAMLLogoutFilter samlLogoutFilter;
-
-    @Autowired
-    private SAMLLogoutProcessingFilter samlLogoutProcessingFilter;
-
-    @Autowired
     private MetadataDisplayFilter metadataDisplayFilter;
 
     @Autowired
@@ -39,13 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private SAMLProcessingFilter samlWebSSOProcessingFilter;
 
     @Autowired
-    private SAMLWebSSOHoKProcessingFilter samlWebSSOHoKProcessingFilter;
-
-    @Autowired
     private SAMLEntryPoint samlEntryPoint;
-
-    @Autowired
-    private SAMLDiscovery samlIDPDiscovery;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -79,14 +67,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterAfter(metadataGeneratorFilter, BasicAuthenticationFilter.class)
                 .addFilterAfter(metadataDisplayFilter, MetadataGeneratorFilter.class)
                 .addFilterAfter(samlEntryPoint, MetadataDisplayFilter.class)
-                .addFilterAfter(samlWebSSOProcessingFilter, SAMLEntryPoint.class)
-                .addFilterAfter(samlWebSSOHoKProcessingFilter, SAMLProcessingFilter.class)
-                .addFilterAfter(samlLogoutProcessingFilter, SAMLWebSSOHoKProcessingFilter.class)
-                .addFilterAfter(samlIDPDiscovery, SAMLLogoutProcessingFilter.class)
-                .addFilterAfter(samlLogoutFilter, LogoutFilter.class);
+                .addFilterAfter(samlWebSSOProcessingFilter, SAMLEntryPoint.class);
         http
                 .authorizeRequests()
-                .antMatchers("/", "/error", "/saml/**", "/idpselection").permitAll()
+                .antMatchers("/", "/error", "/saml/**").permitAll()
                 .anyRequest().authenticated();
         http
                 .exceptionHandling()
