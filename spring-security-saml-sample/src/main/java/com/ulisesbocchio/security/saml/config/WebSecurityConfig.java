@@ -52,11 +52,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        HttpSessionSecurityContextRepository securityContextRepository = new HttpSessionSecurityContextRepository();
-        securityContextRepository.setSpringSecurityContextKey("SPRING_SECURITY_CONTEXT_SAML");
-        http
-                .securityContext()
-                .securityContextRepository(securityContextRepository);
+//        HttpSessionSecurityContextRepository securityContextRepository = new HttpSessionSecurityContextRepository();
+//        securityContextRepository.setSpringSecurityContextKey("SPRING_SECURITY_CONTEXT_SAML");
+//        http
+//                .securityContext()
+//                .securityContextRepository(securityContextRepository);
         http
                 .httpBasic()
                 .disable();

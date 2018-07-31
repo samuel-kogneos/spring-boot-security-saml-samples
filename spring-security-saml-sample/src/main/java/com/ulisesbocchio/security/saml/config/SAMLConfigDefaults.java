@@ -1,5 +1,6 @@
 package com.ulisesbocchio.security.saml.config;
 
+import org.opensaml.saml2.metadata.provider.FilesystemMetadataProvider;
 import org.opensaml.saml2.metadata.provider.MetadataProvider;
 import org.opensaml.saml2.metadata.provider.MetadataProviderException;
 import org.opensaml.util.resource.ResourceException;
@@ -9,9 +10,11 @@ import org.springframework.security.saml.SAMLBootstrap;
 import org.springframework.security.saml.context.SAMLContextProviderImpl;
 import org.springframework.security.saml.log.SAMLDefaultLogger;
 import org.springframework.security.saml.metadata.CachingMetadataManager;
+import org.springframework.security.saml.metadata.ExtendedMetadataDelegate;
 import org.springframework.security.saml.parser.ParserPoolHolder;
 import org.springframework.security.saml.websso.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,21 +55,6 @@ public class SAMLConfigDefaults {
     @Bean
     public WebSSOProfile webSSOprofile() {
         return new WebSSOProfileImpl();
-    }
-
-    @Bean
-    public WebSSOProfileECPImpl ecpProfile() {
-        return new WebSSOProfileECPImpl();
-    }
-
-    @Bean
-    public WebSSOProfileHoKImpl hokWebSSOProfile() {
-        return new WebSSOProfileHoKImpl();
-    }
-
-    @Bean
-    public SingleLogoutProfile logoutProfile() {
-        return new SingleLogoutProfileImpl();
     }
 
     @Bean
