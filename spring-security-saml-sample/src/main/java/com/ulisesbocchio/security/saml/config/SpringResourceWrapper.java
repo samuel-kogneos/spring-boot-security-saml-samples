@@ -1,4 +1,4 @@
-package com.ulisesbocchio.security.saml.spring;
+package com.ulisesbocchio.security.saml.config;
 
 import lombok.SneakyThrows;
 import org.joda.time.DateTime;
@@ -9,13 +9,13 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * @author Ulises Bocchio
+ * Wraps Spring resource into OpenSAML resource.
  */
-public class SpringResourceWrapperOpenSAMLResource implements org.opensaml.util.resource.Resource {
+public class SpringResourceWrapper implements org.opensaml.util.resource.Resource {
 
     private Resource springDelegate;
 
-    public SpringResourceWrapperOpenSAMLResource(Resource springDelegate) throws ResourceException {
+    public SpringResourceWrapper(Resource springDelegate) throws ResourceException {
         this.springDelegate = springDelegate;
         exists();
     }
@@ -58,8 +58,8 @@ public class SpringResourceWrapperOpenSAMLResource implements org.opensaml.util.
             return true;
         }
 
-        if (o instanceof SpringResourceWrapperOpenSAMLResource) {
-            return getLocation().equals(((SpringResourceWrapperOpenSAMLResource) o).getLocation());
+        if (o instanceof SpringResourceWrapper) {
+            return getLocation().equals(((SpringResourceWrapper) o).getLocation());
         }
 
         return false;

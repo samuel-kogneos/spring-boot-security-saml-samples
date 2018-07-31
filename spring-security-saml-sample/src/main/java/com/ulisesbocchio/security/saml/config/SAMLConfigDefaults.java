@@ -58,7 +58,7 @@ public class SAMLConfigDefaults {
     }
 
     @Bean
-    public CachingMetadataManager metadataManager(List<MetadataProvider> metadataProviders) throws MetadataProviderException, ResourceException {
+    public CachingMetadataManager metadataManager(List<MetadataProvider> metadataProviders) throws MetadataProviderException {
         return new CachingMetadataManager(metadataProviders);
     }
 }

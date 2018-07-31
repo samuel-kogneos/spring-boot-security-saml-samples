@@ -64,7 +64,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .disable();
         http
-                .addFilterAfter(metadataGeneratorFilter, BasicAuthenticationFilter.class)
+                .addFilterAfter(metadataGeneratorFilter, BasicAuthenticationFilter.class) //todo tento ma byt uplne prvy security filter
                 .addFilterAfter(metadataDisplayFilter, MetadataGeneratorFilter.class)
                 .addFilterAfter(samlEntryPoint, MetadataDisplayFilter.class)
                 .addFilterAfter(samlWebSSOProcessingFilter, SAMLEntryPoint.class);
